@@ -1,79 +1,69 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
 const App = () => {
-  const [showResult, setShowResult] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [bpm, setBpm] = useState('120');
+  const [flash, setFlash] = useState(false);
 
-  // 연주 종료 후 보여줄 가짜 데이터 (나중에 실제 데이터로 연결될 부분)
-  const resultData = {
-    playTime: "05:01",
-    pitchAccuracy: "92%",
-    rhythmStability: "88%",
-    date: "2026. 4. 29. 오전 9:10"
-  };
+  // 시각적 메트로놈 효과 (BPM에 맞춰 화면 깜빡임)
+  useEffect(() => {
+    let interval;
+    if (isRecording) {
+      const msPerBeat = 60000 / parseInt(bpm);
+      interval = setInterval(() => {
+        setFlash(true);
+        setTimeout(() => setFlash(false), 100); // 0.1초 동안 노란색 테두리
+      }, msPerBeat);
+    }
+    return () => clearInterval(interval);
+  }, [isRecording, bpm]);
 
   return (
-    <View style={styles.container}>
-      {!showResult ? (
-        /* --- 녹화 화면 --- */
-        <View style={styles.fullScreen}>
-          <Text style={styles.guideText}>녹화 중인 화면...</Text>
-          <TouchableOpacity 
-            style={styles.stopButton} 
-            onPress={() => setShowResult(true)}
-          >
-            <Text style={styles.buttonText}>녹화 종료 및 분석</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        /* --- 결과 요약 화면 (사진 2 스타일) --- */
-        <View style={styles.fullScreen}>
-          <View style={styles.resultOverlay}>
-            <Text style={styles.prTitle}>NEW PR</Text>
-            
-            <View style={styles.statsContainer}>
-              <View style={styles.statLine}>
-                <Text style={styles.statValue}>{resultData.playTime}</Text>
-                <Text style={styles.statLabel}>거리(실제 연주 시간)</Text>
-              </View>
-              <View style={styles.statLine}>
-                <Text style={styles.statValue}>{resultData.pitchAccuracy}</Text>
-                <Text style={styles.statLabel}>음정 정확도</Text>
-              </View>
-              <View style={styles.statLine}>
-                <Text style={styles.statValue}>{resultData.rhythmStability}</Text>
-                <Text style={styles.statLabel}>박자 안정감</Text>
-              </View>
-              <Text style={styles.dateText}>{resultData.date}</Text>
-            </View>
-          </View>
+    <View style={[styles.container, flash && styles.flashBorder]}>
+      {/* 상단: 튜너 및 상태 표시 */}
+      <View style={styles.header}>
+        <Text style={styles.noteText}>F9</Text>
+        <Text style={styles.subText}>{bpm} BPM</Text>
+      </View>
 
-          <TouchableOpacity 
-            style={styles.saveButton} 
-            onPress={() => setShowResult(false)}
-          >
-            <Text style={styles.buttonText}>영상 저장 및 공유</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      {/* 중앙: 메트로놈 설정 영역 */}
+      <View style={styles.configArea}>
+        <Text style={styles.label}>TEMPO (BPM)</Text>
+        <TextInput 
+          style={styles.input}
+          value={bpm}
+          onChangeText={setBpm}
+          keyboardType="numeric"
+        />
+      </View>
+
+      {/* 하단: 컨트롤 버튼 */}
+      <View style={styles.footer}>
+        <TouchableOpacity 
+          style={[styles.recButton, isRecording && styles.recording]} 
+          onPress={() => setIsRecording(!isRecording)}
+        >
+          <Text style={styles.buttonText}>{isRecording ? "STOP" : "START"}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000' },
-  fullScreen: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  resultOverlay: { width: '90%', padding: 20, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 15 },
-  prTitle: { fontSize: 80, fontWeight: '900', color: '#fff', fontStyle: 'italic', marginBottom: 20 },
-  statsContainer: { alignSelf: 'flex-end' },
-  statLine: { alignItems: 'flex-end', marginBottom: 15 },
-  statValue: { fontSize: 32, color: '#fff', fontWeight: 'bold' },
-  statLabel: { fontSize: 14, color: '#ccc' },
-  dateText: { color: '#888', marginTop: 10 },
-  stopButton: { padding: 20, backgroundColor: '#ff4444', borderRadius: 10 },
-  saveButton: { marginTop: 30, padding: 20, backgroundColor: '#007AFF', borderRadius: 10 },
-  buttonText: { color: '#fff', fontWeight: 'bold' },
-  guideText: { color: '#555', marginBottom: 20 }
+  container: { flex: 1, backgroundColor: '#000', borderWeight: 10, borderColor: 'transparent' },
+  flashBorder: { borderColor: '#FFD700', borderWidth: 10 }, // 박자에 맞춰 노란색 테두리
+  header: { marginTop: 60, alignItems: 'center' },
+  noteText: { fontSize: 80, color: '#fff', fontWeight: 'bold' },
+  subText: { color: '#888', fontSize: 20 },
+  configArea: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  label: { color: '#fff', marginBottom: 10 },
+  input: { backgroundColor: '#333', color: '#fff', width: 100, textAlign: 'center', fontSize: 24, borderRadius: 10, padding: 10 },
+  footer: { marginBottom: 50, alignItems: 'center' },
+  recButton: { width: 80, height: 80, borderRadius: 40, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' },
+  recording: { backgroundColor: '#ff4444' },
+  buttonText: { fontWeight: 'bold' }
 });
 
 export default App;
