@@ -1,31 +1,38 @@
-# iROOM-MVP
-AI-based music education and analysis platform
-# 🎺 iROOM: AI-Based Music Education & Analysis Platform
+# 🎺 iROOM: AI 기반 음악 교육 및 분석 플랫폼
 
 > **"음악을 감각이 아닌 데이터로 평가하는 시대를 엽니다."**
 
-iROOM은 아마추어 연주자들이 자신의 연주를 객관적으로 분석하고, 러닝 앱의 'Personal Record'처럼 시각적인 성과를 공유할 수 있도록 돕는 에듀테크 솔루션입니다.
+iROOM은 아마추어 연주자들이 자신의 연주를 객관적으로 분석하고, 성과를 시각적으로 확인하며 즐겁게 연습할 수 있도록 돕는 에듀테크 솔루션입니다.
 
-## ✨ Key Features
+---
 
-1. **Smart Tuner & Visual Metronome**
-   - 실시간 주파수($Hz$) 및 센트($Cents$) 분석 오버레이.
-   - 녹음 방해 없는 시각적 메트로놈(Visual Pulse).
+## ✨ 핵심 기능 (Key Features)
 
-2. **Data-Driven Performance Metrics**
-   - **Play Time**: 실제 연주가 이루어진 유효 시간 측정.
-   - **Pitch Accuracy**: 목표 음정 대비 정교함(%) 산출.
-   - **Rhythm Stability**: 메트로놈 비트와 텅잉 시작점의 일치도(%) 분석.
+### 1. 스마트 튜너 & 비주얼 메트로놈
+- **실시간 주파수 분석**: 연주 중 실시간으로 $Hz$와 $Cents$ 오차를 화면에 표시합니다.
+- **비주얼 펄스**: 녹음을 방해하는 메트로놈 소리 대신, 화면 깜빡임으로 정확한 박자를 가이드합니다.
 
-3. **Auto-Generated PR Video**
-   - 연주 종료 후 분석 데이터가 합성된 MP4 영상 자동 생성 및 저장.
+### 2. 데이터 기반 연주 지표 (Performance Metrics)
+- **실제 연주 시간**: 튜너에 음정이 기록된 '진짜 연주 시간'만 정밀 측정합니다.
+- **음정 정확도 (%)**: 목표 음정 대비 얼마나 정확하게 소리 내었는지 평균 수치로 제공합니다.
+- **박자 안정감 (%)**: 메트로놈 비트와 실제 연주(텅잉)의 일치도를 분석합니다.
 
-## 🛠 Tech Stack
+### 3. PR(Personal Record) 영상 자동 생성
+- 연주가 끝나면 분석 결과가 합성된 영상을 자동으로 저장하고 공유할 수 있습니다.
 
-- **Frontend**: React Native
-- **Analysis**: YIN & MPM Pitch Detection Algorithm
-- **Processing**: FFmpeg for Video Overlay
-- **Storage**: Local Gallery Integration
+---
 
-## 📸 Screenshots
-*(이곳에 사진 1과 사진 2를 'Before/After' 느낌으로 배치하면 좋습니다!)*
+## 🛠 기술 스택 (Tech Stack)
+
+- **Platform**: React Native (iOS / Android)
+- **Algorithm**: YIN & MPM (음고 검출 알고리즘)
+- **Processing**: FFmpeg (영상 및 데이터 합성)
+
+---
+
+## 📅 프로젝트 로드맵
+- [x] 프로젝트 아이디어 구체화
+- [x] 깃허브 레포지토리 생성 및 초기 설정
+- [ ] 실시간 카메라 & 튜너 인터페이스 구현
+- [ ] 음정/박자 분석 알고리즘 고도화
+- [ ] 최종 영상 자동 합성 기능 추가
