@@ -1,0 +1,18 @@
+{
+  "name": "iroom-mvp",
+  "version": "1.0.0",
+  "description": "AI-based music education and analysis platform",
+  "main": "App.js",
+  "scripts": {
+    "start": "react-native start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.72.x",
+    "react-native-camera": "^4.2.1",
+    "react-native-ffmpeg": "^0.5.2"
+  },
+  "author": "YourName",
+  "license": "MIT"
+}
